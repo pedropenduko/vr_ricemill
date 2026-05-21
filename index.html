@@ -70,6 +70,7 @@ canvas { background:white; border-radius:8px; }
         <input id="drierPerSack" placeholder="Drier fee per sack" type="number">
 
         <button class="primary" onclick="saveSettings()">Save Settings</button>
+        <button class="danger" onclick="resetTransactions()">Reset Transactions</button>
     </div>
 
     <div class="card">
@@ -136,6 +137,27 @@ canvas { background:white; border-radius:8px; }
 </div>
 
 <script>
+
+// RESET TRANSACTIONS
+async function resetTransactions(){
+    if(!confirm('Are you sure you want to delete ALL transactions? This cannot be undone.')) return;
+    try {
+        const db = await openDatabase();
+        const tx = db.transaction(TRANSACTIONS_STORE, 'readwrite');
+        const store = tx.objectStore(TRANSACTIONS_STORE);
+        await new Promise((resolve, reject) => {
+            const req = store.clear();
+            req.onsuccess = resolve;
+            req.onerror = reject;
+        });
+        tx.oncomplete = () => db.close();
+        await loadTx();
+        alert('All transactions have been deleted.');
+    } catch (err) {
+        alert('Failed to reset transactions.');
+        console.error(err);
+    }
+}
 let settings={}, txs=[], editIndex=null;
 const DB_NAME='RiceMillApp';
 const DB_VERSION=2;
