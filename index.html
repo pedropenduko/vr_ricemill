@@ -40,6 +40,7 @@ canvas { background:white; border-radius:8px; }
 </head>
 
 <body>
+<h2 style="text-align:center; margin:24px 0 8px 0; font-weight:700; letter-spacing:1px;">VR Ricemill POS v1</h2>
 
 <div class="tabs">
     <button onclick="openTab('settings')" class="active">Settings</button>
@@ -384,7 +385,7 @@ async function loadTx(){
     txs.forEach((t,i)=>{
         html+=`
         <div class="card small transaction-row">
-            <div class="transaction-details">${t.date}${t.transactionNumber ? ' #' + t.transactionNumber : ''} | ${t.kg}kg | Sacks Dried: ${t.sacksDried || 0} | ₱${t.revenue.toFixed(2)}</div>
+            <div class="transaction-details">${t.date}${t.transactionNumber ? ' #' + t.transactionNumber : ''} | ${t.kg}kg | ₱${t.revenue.toFixed(2)}</div>
             <div class="transaction-actions">
                 <button onclick="editTx(${i})">Edit</button>
                 <button class="danger" onclick="deleteTx(${i})">Delete</button>
